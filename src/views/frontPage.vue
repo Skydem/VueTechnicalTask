@@ -25,7 +25,7 @@
               v-cloak
             >
               <v-card>
-                <v-img height="300" :src="card.img" cover></v-img>
+                <v-img height="80vh" :src="card.img" cover></v-img>
                 <v-card-title primary-title>
                   <div>
                     <h3 class="headline mb-0">{{ card.title }}</h3>
@@ -36,7 +36,13 @@
                   <p>Health: {{ card.stats.health }}</p>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn variant="flat" color="info"> Select fox! </v-btn>
+                  <v-btn
+                    variant="flat"
+                    color="info"
+                    @click="saveFox(cards[index])"
+                  >
+                    Select fox!
+                  </v-btn>
                   <v-btn @click="rollFox(card)"> Roll the fox. </v-btn>
                 </v-card-actions>
               </v-card>
@@ -61,6 +67,7 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "App",
@@ -130,6 +137,10 @@ export default {
         this.rollFox(fox);
       });
     },
+    saveFox(key) {
+      this.$store.dispatch("saveFox", key);
+      router.push({ name: "fightPage" });
+    },
   },
   beforeMount() {
     this.refreshAll();
@@ -162,8 +173,5 @@ body {
   align-items: center;
   margin-top: 50vh;
   transform: translateY(-50%);
-}
-[v-cloak] {
-  display: none;
 }
 </style>

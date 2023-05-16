@@ -3,6 +3,13 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    test: false,
+    fox: [],
+  },
+  actions: {
+    saveFox({ commit }, foxArray) {
+      console.log("Got fox?", foxArray);
+      console.log(foxArray);
+      this.state.fox = foxArray;
+    },
   },
 });
