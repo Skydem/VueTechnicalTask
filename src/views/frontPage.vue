@@ -11,7 +11,13 @@
         </v-sheet>
         <v-sheet class="section" v-scroll-snap="{ mandatory: true }">
           <v-row align="center" justify="center">
-            <v-col cols="12" md="4" v-for="(card, index) in cards" :key="index">
+            <v-col
+              cols="12"
+              md="4"
+              v-for="(card, index) in cards"
+              :key="index"
+              v-cloak
+            >
               <v-card>
                 <v-img height="300" :src="card.img" cover></v-img>
                 <v-card-title primary-title>
@@ -20,11 +26,12 @@
                   </div>
                 </v-card-title>
                 <v-card-text>
-                  <p>{{ card.content }}</p>
+                  <p>Attack: {{ card.stats.attack }}</p>
+                  <p>Health: {{ card.stats.health }}</p>
                 </v-card-text>
                 <v-card-actions>
                   <v-btn variant="flat" color="info"> Select fox! </v-btn>
-                  <v-btn @click="test(card)"> Roll the fox. </v-btn>
+                  <v-btn @click="rollFox(card)"> Roll the fox. </v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -51,24 +58,29 @@ export default {
     return {
       cards: [
         {
-          title: "title1",
-          content: "simple content",
+          title: "Michael",
           img: "https://randomfox.ca/images/4.jpg",
+          stats: {
+            attack: 5,
+            health: 4,
+          },
         },
         {
-          title: "title2",
-          content: "simple content",
+          title: "John",
           img: "https://randomfox.ca/images/21.jpg",
+          stats: {
+            attack: 8,
+            health: 2,
+          },
         },
         {
-          title: "title3",
-          content: "simple content",
+          title: "Doe",
           img: "https://randomfox.ca/images/37.jpg",
+          stats: {
+            attack: 1,
+            health: 2,
+          },
         },
-        // {
-        //   title: "title4",
-        //   content: "simple content",
-        // },
       ],
     };
   },
@@ -79,12 +91,38 @@ export default {
       console.log("Got new floof", newPic);
       return newPic;
     },
-    async test(key) {
+    async getName() {
+      const getResponse = await axios.get(
+        "https://random-data-api.com/api/v2/users"
+      );
+      const newName = getResponse.data.first_name;
+      console.log("Got new name", newName);
+      return newName;
+    },
+    generateStats() {
+      const newAttack = Math.floor(Math.random() * 10);
+      const newHp = Math.floor(Math.random() * 10);
+      console.log("sending stats: ", newAttack, newHp);
+      return { newAttack, newHp };
+    },
+    async rollFox(key) {
       console.log(`Got card! ${key}`);
       const newPic = await this.getPic();
-      console.log("New pic!", newPic);
+      const newName = await this.getName();
+      const getStats = this.generateStats();
       key.img = newPic;
+      key.title = newName;
+      key.stats.attack = getStats.newAttack;
+      key.stats.health = getStats.newHp;
     },
+    async refreshAll() {
+      this.cards.forEach((fox) => {
+        this.rollFox(fox);
+      });
+    },
+  },
+  beforeMount() {
+    this.refreshAll();
   },
 };
 </script>
@@ -114,5 +152,8 @@ body {
   align-items: center;
   margin-top: 50vh;
   transform: translateY(-50%);
+}
+[v-cloak] {
+  display: none;
 }
 </style>
