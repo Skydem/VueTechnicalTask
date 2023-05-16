@@ -1,15 +1,21 @@
 <template>
   <v-app>
     <v-main>
-      <v-container fluid>
-        <v-sheet class="section" v-scroll-snap="{ mandatory: true }">
+      <v-container fluid class="px-0">
+        <v-sheet
+          class="section bg-grey-lighten-4 px-14"
+          v-scroll-snap="{ mandatory: true }"
+        >
           <v-row align="center" justify="center">
             <v-col cols="12">
               <h1 class="title">Tomasz Torbus Technical Task</h1>
             </v-col>
           </v-row>
         </v-sheet>
-        <v-sheet class="section" v-scroll-snap="{ mandatory: true }">
+        <v-sheet
+          class="section bg-grey-lighten-3 px-4"
+          v-scroll-snap="{ mandatory: true }"
+        >
           <v-row align="center" justify="center">
             <v-col
               cols="12"
@@ -37,7 +43,11 @@
             </v-col>
           </v-row>
         </v-sheet>
-        <v-sheet class="section" v-scroll-snap="{ mandatory: true }">
+        <v-sheet
+          class="section bg-grey-lighten-2 px-4"
+          v-scroll-snap="{ mandatory: true }"
+          v-colo
+        >
           <v-row align="center" justify="center">
             <v-col cols="12">
               <h1 class="title">SEKCJA 3</h1>
