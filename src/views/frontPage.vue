@@ -25,7 +25,7 @@
               v-cloak
             >
               <v-card>
-                <v-img height="80vh" :src="card.img" cover></v-img>
+                <v-img height="60vh" :src="card.img" cover></v-img>
                 <v-card-title primary-title>
                   <div>
                     <h3 class="headline mb-0">{{ card.title }}</h3>

@@ -6,7 +6,7 @@ import fightPage from "@/views/fightPage.vue";
 const routes = [
   {
     path: "/",
-    name: "fronPage",
+    name: "frontPage",
     component: frontPage,
   },
   {
