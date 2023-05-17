@@ -52,40 +52,36 @@
 </template>
 
 <script>
+import router from "@/router";
+import {mapActions, mapMutations} from "vuex";
+import CardStubService from "@/services/CardStubService";
 import FoxCard from "@/components/FoxCard.vue";
 
 export default {
-  name: "App",
+  name: "FrontPage",
   components: { FoxCard },
-  data() {
-    return {
-      cards: [
-        {
-          title: "Michael",
-          img: "https://randomfox.ca/images/4.jpg",
-          stats: {
-            attack: 5,
-            health: 4,
-          },
-        },
-        {
-          title: "John",
-          img: "https://randomfox.ca/images/21.jpg",
-          stats: {
-            attack: 8,
-            health: 2,
-          },
-        },
-        {
-          title: "Doe",
-          img: "https://randomfox.ca/images/37.jpg",
-          stats: {
-            attack: 1,
-            health: 2,
-          },
-        },
-      ],
-    };
+  data: () => ({
+    cards: [],
+  }),
+  methods: {
+    ...mapMutations({
+      saveStoreFox: 'saveFox',
+    }),
+    ...mapActions(['getPic', 'getName', 'rollFox']),
+    async refreshAll() {
+      this.cards.forEach((fox) => {
+        this.rollFox(fox);
+      });
+    },
+    saveFox(key) {
+      this.saveStoreFox(key);
+      router.push({ name: "fightPage" });
+    },
+  },
+  beforeMount() {
+    const generator = new CardStubService();
+    this.cards = generator.generate();
+    this.refreshAll();
   },
 };
 </script>
