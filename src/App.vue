@@ -1,5 +1,4 @@
 <template>
-  <!-- <frontPageVue /> -->
   <Router-View />
 </template>
 

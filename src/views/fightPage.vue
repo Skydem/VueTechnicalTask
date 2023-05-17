@@ -123,24 +123,28 @@ export default {
       this.enemyFox.stats.health = getStats.newHp;
     },
     async fight() {
-      if (this.choosenFox.stats.health > 0 && this.enemyFox.stats.health > 0) {
-        const randSec = Math.random() * 19 + 1;
-        this.counter = 0;
-        for (let i = 0; i < randSec; i++) {
-          await new Promise((r) => setTimeout(r, 100 + i * 10));
-          this.counter++;
-        }
-        if (this.counter > 10) {
-          this.enemyFox.stats.health -= this.choosenFox.stats.attack;
-          this.enemyFoxCard = "bg-red-lighten-2";
-          await new Promise((r) => setTimeout(r, 300));
-          this.enemyFoxCard = "";
-        } else {
-          this.choosenFox.stats.health -= this.enemyFox.stats.attack;
-          this.yourFoxCard = "bg-red-lighten-2";
-          await new Promise((r) => setTimeout(r, 300));
-          this.yourFoxCard = "";
-        }
+      //negacja return i pozniej kod - czysty kod
+      if (
+        !(this.choosenFox.stats.health > 0) &&
+        !(this.enemyFox.stats.health > 0)
+      )
+        return;
+      const randSec = Math.random() * 19 + 1;
+      this.counter = 0;
+      for (let i = 0; i < randSec; i++) {
+        await new Promise((r) => setTimeout(r, 100 + i * 10));
+        this.counter++;
+      }
+      if (this.counter > 10) {
+        this.enemyFox.stats.health -= this.choosenFox.stats.attack;
+        this.enemyFoxCard = "bg-red-lighten-2";
+        await new Promise((r) => setTimeout(r, 300));
+        this.enemyFoxCard = "";
+      } else {
+        this.choosenFox.stats.health -= this.enemyFox.stats.attack;
+        this.yourFoxCard = "bg-red-lighten-2";
+        await new Promise((r) => setTimeout(r, 300));
+        this.yourFoxCard = "";
       }
 
       if (this.enemyFox.stats.health <= 0 && this.choosenFox.stats.health > 0) {
