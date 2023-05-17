@@ -20,6 +20,7 @@ import FightOptions from "@/components/FightPage/FightOptions.vue";
 import ResultOverlay from "@/components/ResultOverlay.vue";
 
 export default {
+  name: "FightPage",
   components: {
     FightYourFox,
     EnemyFoxCard,
