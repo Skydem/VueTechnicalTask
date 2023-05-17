@@ -1,5 +1,13 @@
 import { createStore } from "vuex";
 
+const actions = {
+  saveFox({ commit }, foxArray) {
+    console.log("Got fox?", foxArray);
+    console.log(foxArray);
+    this.state.fox = foxArray;
+  },
+};
+
 export default createStore({
   state: {
     fox: {
@@ -11,13 +19,7 @@ export default createStore({
       },
     },
   },
-  actions: {
-    saveFox({ commit }, foxArray) {
-      console.log("Got fox?", foxArray);
-      console.log(foxArray);
-      this.state.fox = foxArray;
-    },
-  },
+  actions,
   getters: {
     choosenFox: (state) => {
       return state.fox;
