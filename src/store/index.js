@@ -13,11 +13,35 @@ const state = {
     "https://randomfox.ca/images/37.jpg",
     new Stats(1, 1)
   ),
+  enemyFox: new Card(
+    "Lorem żapsum",
+    "https://randomfox.ca/images/21.jpg",
+    new Stats(1, 1)
+  ),
+  enemyFoxCardClass: "",
+  yourFoxCardClass: "",
+  showOverlay: false,
+  overlayText: "You win! 🏆",
 };
 
 const getters = {
   choosenFox: (state) => {
     return state.fox;
+  },
+  enemyFox: (state) => {
+    return state.enemyFox;
+  },
+  enemyFoxCardClass: (state) => {
+    return state.enemyFoxCardClass;
+  },
+  yourFoxCardClass: (state) => {
+    return state.yourFoxCardClass;
+  },
+  showOverlay: (state) => {
+    return state.showOverlay;
+  },
+  overlayText: (state) => {
+    return state.overlayText;
   },
 };
 
@@ -25,6 +49,19 @@ const mutations = {
   saveFox({ commit }, foxArray) {
     this.state.fox = foxArray;
     router.push({ name: "fightPage" });
+  },
+  saveEnemyFox({ commit }, foxArray) {
+    this.state.enemyFox = foxArray;
+  },
+  changeEnemyFoxCardClass({ commit }, newClass) {
+    this.state.enemyFoxCardClass = newClass;
+  },
+  changeYourFoxCardClass({ commit }, newClass) {
+    this.state.yourFoxCardClass = newClass;
+  },
+  toggleOverlay({ commit }, newText = "You win! 🏆") {
+    this.state.showOverlay = !this.state.showOverlay;
+    this.state.overlayText = newText;
   },
 };
 

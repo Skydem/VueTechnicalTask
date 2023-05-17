@@ -1,37 +1,41 @@
 <template>
-  <v-card>
-    <slot name="image"></slot>
-    <v-card-title primary-title>
-      <div>
-        <h3 class="headline mb-0">
-          <slot name="title"></slot>
-        </h3>
+  <v-card class="justify-self-end">
+    <div class="d-flex flex-no-wrap justify-space-start">
+      <slot name="image"></slot>
+      <div class="px-4 my-auto">
+        <v-card-title primary-title>
+          <div>
+            <h3 class="headline mb-0">
+              <slot name="title"></slot>
+            </h3>
+          </div>
+        </v-card-title>
+
+        <v-card-text>
+          <p>
+            Attack:
+            <slot name="attack"></slot>
+          </p>
+          <p>
+            Health:
+            <slot name="health"></slot>
+          </p>
+        </v-card-text>
+
+        <v-card-actions v-if="isFrontPage" class="flex-wrap">
+          <v-btn @click="rollFox(singleFox)"> Next! </v-btn>
+          <v-btn variant="flat" color="info" @click="saveFox(singleFox)">
+            Select!
+          </v-btn>
+        </v-card-actions>
       </div>
-    </v-card-title>
-
-    <v-card-text>
-      <p>
-        Attack:
-        <slot name="attack"></slot>
-      </p>
-      <p>
-        Health:
-        <slot name="health"></slot>
-      </p>
-    </v-card-text>
-
-    <v-card-actions v-if="isFrontPage">
-      <v-btn variant="flat" color="info" @click="saveFox(singleFox)">
-        Select fox!
-      </v-btn>
-      <v-btn @click="rollFox(singleFox)"> Next fox please! </v-btn>
-    </v-card-actions>
+    </div>
   </v-card>
 </template>
 
 <script>
-import router from "@/router";
-import axios from "axios";
+// import router from "@/router";
+// import axios from "axios";
 import { mapActions } from "vuex";
 import { mapMutations } from "vuex";
 

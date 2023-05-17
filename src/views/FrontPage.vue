@@ -17,8 +17,9 @@ import FooterSheet from "@/components/FrontPage/FooterSheet.vue";
 
 export default {
   name: "FrontPage",
-  components: {FooterSheet, MainSheet, IntroductionSheet},
+  components: { FooterSheet, MainSheet, IntroductionSheet },
 };
+//
 </script>
 
 <style>
