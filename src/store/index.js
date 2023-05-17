@@ -1,5 +1,16 @@
 import { createStore } from "vuex";
 
+const state = {
+  fox: {
+    title: "John Doe",
+    img: "https://randomfox.ca/images/37.jpg",
+    stats: {
+      attack: 1,
+      health: 1,
+    },
+  },
+};
+
 const actions = {
   saveFox({ commit }, foxArray) {
     console.log("Got fox?", foxArray);
@@ -8,21 +19,14 @@ const actions = {
   },
 };
 
-export default createStore({
-  state: {
-    fox: {
-      title: "John Doe",
-      img: "https://randomfox.ca/images/37.jpg",
-      stats: {
-        attack: 1,
-        health: 1,
-      },
-    },
-  },
-  actions,
-  getters: {
+const getters = {
     choosenFox: (state) => {
       return state.fox;
     },
-  },
+};
+
+export default createStore({
+  state,
+  actions,
+  getters,
 });
