@@ -5,7 +5,7 @@
         <v-sheet>
           <v-row cols="12" sm="4">
             <v-col cols="4" justify="center" align="center">
-              <FoxCard>
+              <FoxCard :class="yourFoxCard">
                 <template #image>
                   <v-img :src="choosenFox.img" cover></v-img>
                 </template>
@@ -39,7 +39,7 @@
             </v-col>
 
             <v-col cols="4" align="center" justify="center">
-              <FoxCard>
+              <FoxCard :class="enemyFoxCard">
                 <template #image>
                   <v-img :src="enemyFox.img" cover></v-img>
                 </template>
@@ -72,10 +72,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 import router from "@/router";
 import FoxCard from "@/components/FoxCard.vue";
+import StatsGeneratingService from "@/services/StatsGeneratingService";
+
+const statsGeneratingService = new StatsGeneratingService();
 
 export default {
   computed: {
@@ -95,8 +98,6 @@ export default {
         },
       },
       counter: 0,
-      turn: 0,
-      fighter: 0, //if fighter 0, then its your turn, if fighter 1, its enemy turn
       showOverlay: false,
       overlayText: "You win! 🏆",
       yourFoxCard: "",
@@ -104,38 +105,15 @@ export default {
     };
   },
   methods: {
-    async getPic() {
-      const getResponse = await axios.get("https://randomfox.ca/floof/");
-      const newPic = getResponse.data.image;
-      console.log("Got new floof", newPic);
-      return newPic;
-    },
-    async getName() {
-      const getResponse = await axios.get(
-        "https://random-data-api.com/api/v2/users"
-      );
-      const newName = getResponse.data.first_name;
-      console.log("Got new name", newName);
-      return newName;
-    },
-    generateStats() {
-      const newAttack = Math.floor(Math.random() * 9 + 1);
-      const newHp = Math.floor(Math.random() * 9 + 1);
-      console.log("sending stats: ", newAttack, newHp);
-      return { newAttack, newHp };
-    },
+    ...mapActions(["getPic", "getName"]),
     async generateEnemyFox() {
-      const newPic = await this.getPic();
-      const newName = await this.getName();
-      const getStats = this.generateStats();
-      console.log("hello?");
-      this.enemyFox.img = newPic;
-      this.enemyFox.title = newName;
+      const getStats = statsGeneratingService.generate();
+      this.enemyFox.img = await this.getPic();
+      this.enemyFox.title = await this.getName();
       this.enemyFox.stats.attack = getStats.newAttack;
       this.enemyFox.stats.health = getStats.newHp;
     },
     async fight() {
-      //negacja return i pozniej kod - czysty kod
       if (
         !(this.choosenFox.stats.health > 0) &&
         !(this.enemyFox.stats.health > 0)

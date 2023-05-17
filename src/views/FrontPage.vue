@@ -18,7 +18,7 @@
         >
           <v-row align="center" justify="center">
             <v-col cols="12" md="4" v-for="(card, index) in cards" :key="index">
-              <FoxCard isFrontPage="True">
+              <FoxCard isFrontPage="True" :singleFox="card">
                 <template #image>
                   <v-img height="60vh" :src="card.img" cover></v-img>
                 </template>
@@ -53,21 +53,21 @@
 
 <script>
 import router from "@/router";
-import {mapActions, mapMutations} from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import CardStubService from "@/services/CardStubService";
 import FoxCard from "@/components/FoxCard.vue";
 
 export default {
-  name: "FrontPage",
+  name: "FrontP0age",
   components: { FoxCard },
   data: () => ({
     cards: [],
   }),
   methods: {
     ...mapMutations({
-      saveStoreFox: 'saveFox',
+      saveStoreFox: "saveFox",
     }),
-    ...mapActions(['getPic', 'getName', 'rollFox']),
+    ...mapActions(["getPic", "getName", "rollFox"]),
     async refreshAll() {
       this.cards.forEach((fox) => {
         this.rollFox(fox);
