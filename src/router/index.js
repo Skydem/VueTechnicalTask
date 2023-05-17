@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import frontPage from "@/views/FrontPage.vue";
-import fightPage from "@/views/FightPage.vue";
+import fightPage from "@/views/fightPage.vue";
 
 const routes = [
   {
@@ -9,7 +9,7 @@ const routes = [
     component: frontPage,
   },
   {
-    path: "/FightPage",
+    path: "/fightPage",
     name: "fightPage",
     component: fightPage,
   },
