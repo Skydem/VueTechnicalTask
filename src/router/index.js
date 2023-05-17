@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import frontPage from "@/views/frontPage.vue";
+import frontPage from "@/views/FrontPage.vue";
 import fightPage from "@/views/fightPage.vue";
 
 const routes = [
