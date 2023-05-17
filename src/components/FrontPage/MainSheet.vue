@@ -2,7 +2,7 @@
 <SectionSheet :px="4" :lighten="3">
   <v-row align="center" justify="center">
     <v-col cols="12" md="4" v-for="(card, index) in cards" :key="index">
-      <FoxCard isFrontPage>
+      <FoxCard isFrontPage :single-fox="card">
         <template #image>
           <v-img height="60vh" :src="card.img" cover></v-img>
         </template>
