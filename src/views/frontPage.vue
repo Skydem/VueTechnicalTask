@@ -43,7 +43,7 @@
                   >
                     Select fox!
                   </v-btn>
-                  <v-btn @click="rollFox(card)"> Roll the fox. </v-btn>
+                  <v-btn @click="rollFox(card)"> Next fox please! </v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>

@@ -5,7 +5,7 @@
         <v-sheet>
           <v-row cols="12" sm="4">
             <v-col cols="4" justify="center" align="center">
-              <v-card>
+              <v-card :class="yourFoxCard">
                 <v-img :src="choosenFox.img" cover height="300px"></v-img>
                 <v-card-title primary-title>
                   {{ choosenFox.title }}
@@ -22,20 +22,20 @@
                 <v-card-title primary-title> Fight or run?</v-card-title>
                 <v-card-text>
                   Before fighting, you will roll d20. If result will be greater
-                  than 10, you will attack first.
+                  than 10, you will attack first. Good luck! 🦊
                 </v-card-text>
-                <v-card-text> Outcome: {{ counter }} </v-card-text>
+                <v-card-text> 🎲 {{ counter }} 🎲 </v-card-text>
                 <v-card-actions>
                   <v-btn variant="flat" color="info" @click="fight()">
-                    Fight!
+                    ⚔ Fight! ⚔
                   </v-btn>
-                  <v-btn @click="run()"> Run! </v-btn>
+                  <v-btn @click="run()"> 🏃‍♀️ Run! 🏃‍♂️ </v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
 
             <v-col cols="4" align="center" justify="center">
-              <v-card>
+              <v-card :class="enemyFoxCard">
                 <v-img :src="enemyFox.img" cover height="300px"></v-img>
                 <v-card-title primary-title>
                   {{ enemyFox.title }}
@@ -49,6 +49,16 @@
           </v-row>
         </v-sheet>
       </v-container>
+      <v-dialog v-model="showOverlay" persistent maxWidth="300">
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">{{ overlayText }}</span>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="primary" text @click="hideOverlay">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-main>
   </v-app>
 </template>
@@ -75,6 +85,10 @@ export default {
       counter: 0,
       turn: 0,
       fighter: 0, //if fighter 0, then its your turn, if fighter 1, its enemy turn
+      showOverlay: false,
+      overlayText: "You win! 🏆",
+      yourFoxCard: "",
+      enemyFoxCard: "",
     };
   },
   methods: {
@@ -93,8 +107,8 @@ export default {
       return newName;
     },
     generateStats() {
-      const newAttack = Math.floor(Math.random() * 10);
-      const newHp = Math.floor(Math.random() * 10);
+      const newAttack = Math.floor(Math.random() * 9 + 1);
+      const newHp = Math.floor(Math.random() * 9 + 1);
       console.log("sending stats: ", newAttack, newHp);
       return { newAttack, newHp };
     },
@@ -109,27 +123,39 @@ export default {
       this.enemyFox.stats.health = getStats.newHp;
     },
     async fight() {
-      const randSec = Math.random() * 19 + 1;
-      this.counter = 0;
-      for (let i = 0; i < randSec; i++) {
-        await new Promise((r) => setTimeout(r, 100));
-        this.counter++;
-      }
-      while (
-        this.choosenFox.stats.health > 0 &&
-        this.enemyFox.stats.health > 0
-      ) {
-        if (
-          this.counter > 10 &&
-          this.choosenFox.stats.attack > this.enemyFox.stats.health
-        ) {
+      if (this.choosenFox.stats.health > 0 && this.enemyFox.stats.health > 0) {
+        const randSec = Math.random() * 19 + 1;
+        this.counter = 0;
+        for (let i = 0; i < randSec; i++) {
+          await new Promise((r) => setTimeout(r, 100 + i * 10));
+          this.counter++;
+        }
+        if (this.counter > 10) {
           this.enemyFox.stats.health -= this.choosenFox.stats.attack;
+          this.enemyFoxCard = "bg-red-lighten-2";
+          await new Promise((r) => setTimeout(r, 300));
+          this.enemyFoxCard = "";
         } else {
           this.choosenFox.stats.health -= this.enemyFox.stats.attack;
+          this.yourFoxCard = "bg-red-lighten-2";
+          await new Promise((r) => setTimeout(r, 300));
+          this.yourFoxCard = "";
         }
+      }
+
+      if (this.enemyFox.stats.health <= 0 && this.choosenFox.stats.health > 0) {
+        this.showOverlay = true;
+      }
+      if (this.choosenFox.stats.health <= 0 && this.enemyFox.stats.health > 0) {
+        this.overlayText = "You lost! 😥";
+        this.showOverlay = true;
       }
     },
     run() {
+      router.push({ name: "frontPage" });
+    },
+    hideOverlay() {
+      this.showOverlay = false;
       router.push({ name: "frontPage" });
     },
   },
