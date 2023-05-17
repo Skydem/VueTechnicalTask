@@ -5,16 +5,20 @@
         <v-sheet>
           <v-row cols="12" sm="4">
             <v-col cols="4" justify="center" align="center">
-              <v-card :class="yourFoxCard">
-                <v-img :src="choosenFox.img" cover height="300px"></v-img>
-                <v-card-title primary-title>
+              <FoxCard>
+                <template #image>
+                  <v-img :src="choosenFox.img" cover></v-img>
+                </template>
+                <template #title>
                   {{ choosenFox.title }}
-                </v-card-title>
-                <v-card-text>
-                  <p>Attack: {{ choosenFox.stats.attack }}</p>
-                  <p>Health: {{ choosenFox.stats.health }}</p>
-                </v-card-text>
-              </v-card>
+                </template>
+                <template #attack>
+                  {{ choosenFox.stats.attack }}
+                </template>
+                <template #health>
+                  {{ choosenFox.stats.health }}
+                </template>
+              </FoxCard>
             </v-col>
 
             <v-col cols="4" align="center" justify="center">
@@ -35,16 +39,20 @@
             </v-col>
 
             <v-col cols="4" align="center" justify="center">
-              <v-card :class="enemyFoxCard">
-                <v-img :src="enemyFox.img" cover height="300px"></v-img>
-                <v-card-title primary-title>
+              <FoxCard>
+                <template #image>
+                  <v-img :src="enemyFox.img" cover></v-img>
+                </template>
+                <template #title>
                   {{ enemyFox.title }}
-                </v-card-title>
-                <v-card-text>
-                  <p>Attack: {{ enemyFox.stats.attack }}</p>
-                  <p>Health: {{ enemyFox.stats.health }}</p>
-                </v-card-text>
-              </v-card>
+                </template>
+                <template #attack>
+                  {{ enemyFox.stats.attack }}
+                </template>
+                <template #health>
+                  {{ enemyFox.stats.health }}
+                </template>
+              </FoxCard>
             </v-col>
           </v-row>
         </v-sheet>
@@ -67,10 +75,14 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import router from "@/router";
+import FoxCard from "@/components/FoxCard.vue";
 
 export default {
   computed: {
     ...mapGetters(["choosenFox"]),
+  },
+  components: {
+    FoxCard,
   },
   data() {
     return {
